@@ -1,4 +1,21 @@
+import { Link, NavLink } from "react-router-dom";
+import { FaHome } from "react-icons/fa";
+
 const Navbar = () => {
+    const navOptions = (
+        <>
+            <li>
+                <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                        isActive ? "navbar-active" : "navbar-not-active"
+                    }
+                >
+                    <FaHome/><span>Home</span>
+                </NavLink>
+            </li>
+        </>
+    );
     return (
         <div className="container mx-auto">
             <div className="navbar bg-indigo-50 rounded-xl">
@@ -24,30 +41,22 @@ const Navbar = () => {
                             tabIndex={0}
                             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
                         >
-                            <li>
-                                <a>Item 1</a>
-                            </li>
-                            <li>
-                                <a>Item 3</a>
-                            </li>
+                            {navOptions}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+                    <Link to="/" className="btn btn-ghost normal-case text-xl">
+                        daisyUI
+                    </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
-                    <ul className="menu menu-horizontal px-1">
-                        <li>
-                            <a>Item 1</a>
-                        </li>
-                        <li>
-                            <a>Item 3</a>
-                        </li>
-                    </ul>
+                    <ul className="menu menu-horizontal px-1">{navOptions}</ul>
                 </div>
                 <div className="navbar-end">
-                    <button className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow">
-                        Login
-                    </button>
+                    <Link to="login">
+                        <button className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow">
+                            Login
+                        </button>
+                    </Link>
                 </div>
             </div>
         </div>

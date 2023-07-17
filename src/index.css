@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.navbar-active {
+    @apply border-b border-b-green-600 rounded-none pb-1 px-1  hover:bg-transparent focus:bg-none;
+}
+.navbar-not-active {
+    @apply hover:bg-transparent focus:bg-none;
+}

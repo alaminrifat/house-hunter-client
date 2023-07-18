@@ -3,46 +3,58 @@ import React, { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../../../Auth/AuthProvider";
 import { MdOutlineDelete, MdEditDocument } from "react-icons/md";
 import { FadeLoader } from "react-spinners";
+import EditHouseForm from "./EditHouseForm";
+import { useForm } from "react-hook-form";
 
 const ManageHouse = () => {
     const [houses, setHouses] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
+    const [selectedHouse, setSelectedHouse] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
+    const [feedbackModalOpen, setFeedbackModalOpen] = useState(false);
+    const { register, handleSubmit, reset } = useForm();
     const { user } = useContext(AuthContext);
 
     useEffect(() => {
         fetchHouses();
     }, []);
 
-    const fetchHouses = async () => {
-        try {
-            setIsLoading(true);
-            const token = localStorage.getItem("token"); // Get the token from local storage
-            const config = {
-                headers: {
-                    Authorization: `Bearer ${token}`, // Include the token in the Authorization header
-                },
-            };
-            const response = await axios.get(
-                `http://localhost:3000/api/houses/${user?.email}`,
-                config // Pass the config object with headers
-            );
-            console.log(response.data.houses);
-            setHouses(response.data.houses);
-            setIsLoading(false);
-        } catch (error) {
-            console.error("Error fetching houses:", error);
+    useEffect(() => {
+        if (feedbackModalOpen) {
+            window.my_modal_5.showModal();
         }
+    }, [feedbackModalOpen]);
+
+    const handleSendFeedback = (id) => {
+        setSelectedHouse(id);
+        setFeedbackModalOpen(true);
     };
-    // console.log(houses);
-    const deleteHouse = async (houseId) => {
-        // console.log(houseId);
+
+    const fetchHouses = async () => {
         try {
             setIsLoading(true);
             const token = localStorage.getItem("token");
             const config = {
                 headers: { Authorization: `Bearer ${token}` },
             };
+            const response = await axios.get(
+                `http://localhost:3000/api/houses/${user?.email}`,
+                config
+            );
+            setHouses(response.data.houses);
+            setIsLoading(false);
+        } catch (error) {
+            console.error("Error fetching houses:", error);
+        }
+    };
 
+    const deleteHouse = async (houseId) => {
+        try {
+            setIsLoading(true);
+            const token = localStorage.getItem("token");
+            const config = {
+                headers: { Authorization: `Bearer ${token}` },
+            };
             await axios.delete(
                 `http://localhost:3000/api/houses/${houseId}`,
                 config
@@ -56,28 +68,41 @@ const ManageHouse = () => {
         }
     };
 
-    const editHouse = async (houseId, updatedData) => {
+    const updateHouse = async (houseId, updatedData) => {
         try {
+            setIsLoading(true);
             const token = localStorage.getItem("token");
             const config = {
                 headers: { Authorization: `Bearer ${token}` },
             };
-
             await axios.put(
                 `http://localhost:3000/api/houses/${houseId}`,
                 updatedData,
                 config
             );
             fetchHouses(); // Refresh the list of houses after updating
+            setIsEditing(false);
+            setFeedbackModalOpen(false);
         } catch (error) {
             console.error("Error updating house:", error);
         }
     };
 
+    const openEditForm = (house) => {
+        setSelectedHouse(house);
+        setIsEditing(true);
+        setFeedbackModalOpen(true);
+    };
+
+    const closeEditForm = () => {
+        setSelectedHouse(null);
+        setIsEditing(false);
+        setFeedbackModalOpen(false);
+    };
+
     return (
         <div className="overflow-x-auto">
             <table className="table">
-                {/* head */}
                 <thead>
                     <tr>
                         <th>Name</th>
@@ -98,7 +123,6 @@ const ManageHouse = () => {
                     </tbody>
                 ) : (
                     <tbody>
-                        {/* row 1 */}
                         {houses.map((house) => (
                             <tr key={house._id}>
                                 <td>
@@ -135,7 +159,10 @@ const ManageHouse = () => {
                                 </td>
                                 <td>Purple</td>
                                 <td className="">
-                                    <button className="btn btn-info btn-sm text-white me-2">
+                                    <button
+                                        className="btn btn-info btn-sm text-white me-2"
+                                        onClick={() => openEditForm(house)}
+                                    >
                                         <MdEditDocument /> Edit
                                     </button>
                                     <button
@@ -150,6 +177,31 @@ const ManageHouse = () => {
                     </tbody>
                 )}
             </table>
+
+            {isEditing && selectedHouse && (
+                <dialog
+                    id="my_modal_5"
+                    className="modal modal-bottom sm:modal-middle"
+                >
+                    <div className="card flex-shrink-0 w-full max-w-3xl shadow-2xl bg-base-100 py-6 px-12">
+                        <div className="card-body">
+                            <h2 className="font-bold text-xl text-center mb-6 underline-offset-8">
+                                Edit House
+                            </h2>
+                            <EditHouseForm
+                                house={selectedHouse}
+                                onSubmit={(updatedData) =>
+                                    updateHouse(selectedHouse._id, updatedData)
+                                }
+                                onCancel={closeEditForm}
+                            />
+                            <button className="btn" onClick={closeEditForm}>
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </dialog>
+            )}
         </div>
     );
 };

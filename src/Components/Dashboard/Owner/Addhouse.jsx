@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 
 import Container from "../../../Layout/Container/Container";
+import { AuthContext } from "../../../Auth/AuthProvider";
 
 const Addhouse = () => {
     const { register, handleSubmit, reset } = useForm();
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
     const [successMessage, setSuccessMessage] = useState("");
-
+    const { user } = useContext(AuthContext);
     const onSubmit = async (data) => {
         setIsLoading(true);
         setError("");

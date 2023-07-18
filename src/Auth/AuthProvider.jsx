@@ -1,5 +1,6 @@
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import axios from "axios";
+import jwt_decode from "jwt-decode";
 
 export const AuthContext = createContext();
 
@@ -21,6 +22,7 @@ const AuthProvider = ({ children }) => {
             );
 
             if (response.status === 201) {
+                setUser({ email, role });
                 return response.data;
             } else {
                 throw new Error("User registration failed");
@@ -42,18 +44,37 @@ const AuthProvider = ({ children }) => {
             );
             const { token } = response.data;
             localStorage.setItem("token", token);
+            const { role } = response.data;
 
+            setUser({ email, role });
             // const decodedToken = jwt.decode(token);
             // const userId = decodedToken.userId;
             // setUser(userId);
-
+            // console.log(role, token);
             return response.data;
         } catch (error) {
             throw new Error("Login failed");
         }
     };
 
+    useEffect(() => {
+        // Check if the user is already authenticated in localStorage
+        const storedToken = localStorage.getItem("token");
+        if (storedToken) {
+            // Decode the token to retrieve user information
+            const decodedToken = jwt_decode(storedToken);
+            const { email, role } = decodedToken;
+
+            // Set the user state with the retrieved information
+            setUser({ email, role });
+            setLoading(false);
+        } else {
+            setLoading(false);
+        }
+    }, []);
+
     const authInfo = {
+        user,
         setUser,
         registerUser,
         loginUser,

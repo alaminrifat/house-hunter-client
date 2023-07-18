@@ -1,9 +1,11 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { AuthContext } from "../../../Auth/AuthProvider";
 
 const ManageHouse = () => {
     const [houses, setHouses] = useState([]);
-
+    const { user } = useContext(AuthContext);
+    
     useEffect(() => {
         fetchHouses();
     }, []);

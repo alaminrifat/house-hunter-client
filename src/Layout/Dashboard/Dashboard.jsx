@@ -1,11 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FaCalendar, FaCalendarCheck, FaHome } from "react-icons/fa";
 import { PiCalendarCheckBold } from "react-icons/pi";
 import { BsFillHouseAddFill } from "react-icons/bs";
 import { NavLink, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { AuthContext } from "../../Auth/AuthProvider";
 
 const Dashboard = () => {
+    const { user } = useContext(AuthContext);
+
     const navOptions = (
         <>
             <li>
@@ -19,17 +22,43 @@ const Dashboard = () => {
                 </NavLink>
             </li>
             {/* house owner */}
-
-            <li>
-                <NavLink to="home">
-                    <BsFillHouseAddFill></BsFillHouseAddFill> Control Panel
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to="addhouse">
-                    <BsFillHouseAddFill></BsFillHouseAddFill> Add house
-                </NavLink>
-            </li>
+            {console.log(user?.role)}
+            {user?.role === "House Owner" ? (
+                <>
+                    {" "}
+                    <li>
+                        <NavLink to="home">
+                            <BsFillHouseAddFill></BsFillHouseAddFill> Control
+                            Panel
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="addhouse">
+                            <BsFillHouseAddFill></BsFillHouseAddFill> Add house
+                        </NavLink>
+                    </li>
+                </>
+            ) : (
+                <></>
+            )}
+            {user?.role === "House Renter" ? (
+                <>
+                    {" "}
+                    <li>
+                        <NavLink to="home">
+                            <BsFillHouseAddFill></BsFillHouseAddFill> Control
+                            Panel
+                        </NavLink>
+                    </li>
+                    <li>
+                        <NavLink to="addhouse">
+                            <BsFillHouseAddFill></BsFillHouseAddFill> Add house
+                        </NavLink>
+                    </li>
+                </>
+            ) : (
+                <></>
+            )}
         </>
     );
     return (

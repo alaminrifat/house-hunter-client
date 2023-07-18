@@ -1,7 +1,10 @@
 import { Link, NavLink } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
+import { useContext } from "react";
+import { AuthContext } from "../Auth/AuthProvider";
 
 const Navbar = () => {
+    const { user } = useContext(AuthContext);
     const navOptions = (
         <>
             <li>
@@ -11,7 +14,19 @@ const Navbar = () => {
                         isActive ? "navbar-active" : "navbar-not-active"
                     }
                 >
-                    <FaHome/><span>Home</span>
+                    <FaHome />
+                    <span>Home</span>
+                </NavLink>
+            </li>
+            <li>
+                <NavLink
+                    to="dashboard"
+                    className={({ isActive }) =>
+                        isActive ? "navbar-active" : "navbar-not-active"
+                    }
+                >
+                    <FaHome />
+                    <span>Dashboard</span>
                 </NavLink>
             </li>
         </>
@@ -52,11 +67,23 @@ const Navbar = () => {
                     <ul className="menu menu-horizontal px-1">{navOptions}</ul>
                 </div>
                 <div className="navbar-end">
-                    <Link to="login">
-                        <button className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow">
-                            Login
-                        </button>
-                    </Link>
+                    {user ? (
+                        <>
+                            <p>{user.role}</p>
+                            <button
+                                className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
+                                // onClick={logout}
+                            >
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <Link to="login">
+                            <button className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow">
+                                Login
+                            </button>
+                        </Link>
+                    )}
                 </div>
             </div>
         </div>

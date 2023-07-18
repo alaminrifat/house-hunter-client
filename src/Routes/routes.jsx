@@ -7,12 +7,16 @@ import Dashboard from "../Layout/Dashboard/Dashboard";
 import Addhouse from "../Components/Dashboard/Owner/Addhouse";
 import Home from "../Components/Dashboard/Owner/Home";
 import ManageBookings from "../Components/Dashboard/Renter/ManageBookings";
-
+import LandingPage from "../Components/Home/LandingPage";
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Main />,
         children: [
+            {
+                path:'/',
+                element: <LandingPage/>
+            },
             {
                 path: "login",
                 element: <Login />,

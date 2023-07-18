@@ -21,6 +21,11 @@ const Dashboard = () => {
             {/* house owner */}
 
             <li>
+                <NavLink to="home">
+                    <BsFillHouseAddFill></BsFillHouseAddFill> Control Panel
+                </NavLink>
+            </li>
+            <li>
                 <NavLink to="addhouse">
                     <BsFillHouseAddFill></BsFillHouseAddFill> Add house
                 </NavLink>

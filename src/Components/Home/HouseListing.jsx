@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import Container from "../../Layout/Container/Container";
+import HouseCard from "./HouseCard";
 
 const HouseListing = () => {
     const [houses, setHouses] = useState([]);
@@ -11,26 +13,9 @@ const HouseListing = () => {
         rentMin: "",
         rentMax: "",
     });
-    useEffect(() => {try {
-        const response =  fetch("http://localhost:3000/api/houses");
-        const data =  response.json();
-        console.log(data.houses);
-        setHouses(data.houses);
-    } catch (error) {
-        console.error("Error fetching houses:", error);
-    } 
+    useEffect(() => {
+        handleSearch();
     }, []);
-
-    const fetchHouses = async () => {
-        try {
-            const response = await fetch("http://localhost:3000/api/houses");
-            const data = await response.json();
-            console.log(data.houses);
-            setHouses(data.houses);
-        } catch (error) {
-            console.error("Error fetching houses:", error);
-        }
-    };
 
     const handleSearch = async () => {
         try {
@@ -50,45 +35,54 @@ const HouseListing = () => {
     };
 
     return (
-        <div>
-            <h1 className="text-4xl">House Listings</h1>
-            <div>
-                <label htmlFor="cityInput">City:</label>
+        <Container>
+            <div className="flex  items-center justify-center gap-6 ">
                 <input
                     type="text"
                     id="cityInput"
                     name="city"
+                    className="input input-xs min-w-xs input-accent"
+                    placeholder="city"
                     value={filters.city}
                     onChange={handleInputChange}
                 />
 
-                <label htmlFor="bedroomsInput">Bedrooms:</label>
                 <input
                     type="number"
                     id="bedroomsInput"
                     name="bedrooms"
+                    className="input input-xs min-w-xs input-accent"
+                    placeholder="Bedrooms"
                     value={filters.bedrooms}
                     onChange={handleInputChange}
                 />
 
-                <label htmlFor="bathroomsInput">Bathrooms:</label>
                 <input
                     type="number"
                     id="bathroomsInput"
                     name="bathrooms"
+                    className="input input-xs min-w-xs input-accent"
+                    placeholder="Bathrooms"
                     value={filters.bathrooms}
                     onChange={handleInputChange}
                 />
 
                 {/* Add more filter inputs for roomSize, availability, and rent range */}
-                <button onClick={handleSearch}>Search</button>
+                <button
+                    className="btn btn-accent btn-xs"
+                    onClick={handleSearch}
+                >
+                    Search
+                </button>
             </div>
 
             {/* show houses  */}
-            {houses.map((house) => (
-                <p key={house._id}>{house.name}</p>
-            ))}
-        </div>
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {houses.map((house) => (
+                    <HouseCard key={house._id} house={house}></HouseCard>
+                ))}
+            </div>
+        </Container>
     );
 };
 

@@ -1,26 +1,17 @@
 import React, { useContext } from "react";
-import { FaCalendar, FaCalendarCheck, FaHome } from "react-icons/fa";
+import { FaHome } from "react-icons/fa";
 import { PiCalendarCheckBold } from "react-icons/pi";
 import { BsFillHouseAddFill } from "react-icons/bs";
 import { NavLink, Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import { AuthContext } from "../../Auth/AuthProvider";
+import ManageBookings from "../../Components/Dashboard/Renter/ManageBookings";
 
 const Dashboard = () => {
     const { user } = useContext(AuthContext);
 
     const navOptions = (
         <>
-            <li>
-                <NavLink to="bookings">
-                    <PiCalendarCheckBold></PiCalendarCheckBold> Bookings
-                </NavLink>
-            </li>
-            <li>
-                <NavLink to="bookings">
-                    <PiCalendarCheckBold></PiCalendarCheckBold> Bookings
-                </NavLink>
-            </li>
             {/* house owner */}
             {console.log(user?.role)}
             {user?.role === "House Owner" ? (
@@ -45,14 +36,9 @@ const Dashboard = () => {
                 <>
                     {" "}
                     <li>
-                        <NavLink to="home">
-                            <BsFillHouseAddFill></BsFillHouseAddFill> Control
-                            Panel
-                        </NavLink>
-                    </li>
-                    <li>
-                        <NavLink to="addhouse">
-                            <BsFillHouseAddFill></BsFillHouseAddFill> Add house
+                        <NavLink to="managebookings">
+                            <PiCalendarCheckBold></PiCalendarCheckBold> Manage
+                            Bookings
                         </NavLink>
                     </li>
                 </>

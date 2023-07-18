@@ -20,7 +20,11 @@ const Navbar = () => {
             </li>
             <li>
                 <NavLink
-                    to="dashboard"
+                    to={
+                        user?.role === "House Renter"
+                            ? "/dashboard/managebookings"
+                            : "/dashboard/home"
+                    }
                     className={({ isActive }) =>
                         isActive ? "navbar-active" : "navbar-not-active"
                     }

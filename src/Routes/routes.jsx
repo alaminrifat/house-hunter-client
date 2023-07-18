@@ -6,6 +6,7 @@ import Register from "../Auth/Register";
 import Dashboard from "../Layout/Dashboard/Dashboard";
 import Addhouse from "../Components/Dashboard/Owner/Addhouse";
 import Home from "../Components/Dashboard/Owner/Home";
+import ManageBookings from "../Components/Dashboard/Renter/ManageBookings";
 
 export const router = createBrowserRouter([
     {
@@ -33,6 +34,16 @@ export const router = createBrowserRouter([
             {
                 path: "addhouse",
                 element: <Addhouse />,
+            },
+        ],
+    },
+    {
+        path: "/dashboard",
+        element: <Dashboard />,
+        children: [
+            {
+                path: "managebookings",
+                element: <ManageBookings></ManageBookings>,
             },
         ],
     },

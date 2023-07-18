@@ -3,6 +3,7 @@ import App from "../App";
 import Main from "../Layout/Main";
 import Login from "../Auth/Login";
 import Register from "../Auth/Register";
+import Dashboard from "../Layout/Dashboard/Dashboard";
 
 export const router = createBrowserRouter([
     {
@@ -19,4 +20,8 @@ export const router = createBrowserRouter([
             }
         ]
     },
+    {
+        path:'/dashboard',
+        element:<Dashboard/>
+    }
 ]);

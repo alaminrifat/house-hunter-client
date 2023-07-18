@@ -8,3 +8,7 @@
 .navbar-not-active {
     @apply hover:bg-transparent focus:bg-none;
 }
+
+a.active{
+    @apply bg-white
+}

@@ -2,6 +2,7 @@ import { Link, NavLink } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../Auth/AuthProvider";
+import Container from "../Layout/Container/Container";
 
 const Navbar = () => {
     const { user } = useContext(AuthContext);
@@ -36,8 +37,8 @@ const Navbar = () => {
         </>
     );
     return (
-        <div className="container mx-auto">
-            <div className="navbar bg-indigo-50 rounded-xl">
+        <Container>
+            <div className="navbar border-b-[1px] ">
                 <div className="navbar-start ">
                     <div className="dropdown">
                         <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -90,7 +91,7 @@ const Navbar = () => {
                     )}
                 </div>
             </div>
-        </div>
+        </Container>
     );
 };
 

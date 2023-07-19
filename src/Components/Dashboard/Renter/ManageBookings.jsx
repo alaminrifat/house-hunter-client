@@ -1,7 +1,11 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import Container from "../../../Layout/Container/Container";
+import { AuthContext } from "../../../Auth/AuthProvider";
 
 const ManageBookings = () => {
+    const { user } = useContext(AuthContext);
+
     const [bookedHouses, setBookedHouses] = useState([]);
     const [bookingData, setBookingData] = useState({
         name: "",
@@ -16,14 +20,21 @@ const ManageBookings = () => {
     }, []);
 
     const fetchBookedHouses = async () => {
+        const token = localStorage.getItem("token");
         try {
-            // TODO: replace user.email from authcontext
-            const userEmail = "tch@tch.com"; // Replace with the actual user email
+            const userEmail = user?.email;
+            console.log(userEmail);
             const response = await axios.get(
-                `http://localhost:3000/api/bookings?email=${userEmail}`
+                `http://localhost:3000/api/renter/bookings/${userEmail}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
             if (response.status === 200) {
-                setBookedHouses(response.data);
+                setBookedHouses(response.data.bookings);
+                console.log(response.data.bookings);
             }
         } catch (error) {
             console.error("Error fetching booked houses:", error);
@@ -45,7 +56,7 @@ const ManageBookings = () => {
     };
 
     return (
-        <div>
+        <Container>
             <h2>House Renter Dashboard</h2>
 
             {/* Booked Houses List */}
@@ -63,7 +74,7 @@ const ManageBookings = () => {
                     </li>
                 ))}
             </ul>
-        </div>
+        </Container>
     );
 };
 

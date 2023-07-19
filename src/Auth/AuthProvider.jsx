@@ -7,7 +7,7 @@ export const AuthContext = createContext();
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
-    const username = "Rifat";
+
     // const navigate = useNavigate();
     const registerUser = async (fullName, email, password, role) => {
         try {
@@ -22,7 +22,7 @@ const AuthProvider = ({ children }) => {
             );
 
             if (response.status === 201) {
-                setUser({ email, role });
+                setUser({ email, role, fullName });
 
                 return response.data;
             } else {
@@ -45,9 +45,9 @@ const AuthProvider = ({ children }) => {
             );
             const { token } = response.data;
             localStorage.setItem("token", token);
-            const { role } = response.data;
-
-            setUser({ email, role });
+            const { role, fullName } = response.data;
+            console.log(response.data);
+            setUser({ email, role, fullName });
 
             return response.data;
         } catch (error) {
@@ -67,9 +67,9 @@ const AuthProvider = ({ children }) => {
         if (storedToken) {
             // Decode the token to retrieve user information
             const decodedToken = jwt_decode(storedToken);
-            const { email, role } = decodedToken;
+            const { email, role, fullName } = decodedToken;
 
-            setUser({ email, role });
+            setUser({ email, role, fullName });
             setLoading(false);
         } else {
             setLoading(false);
@@ -81,8 +81,7 @@ const AuthProvider = ({ children }) => {
         setUser,
         registerUser,
         loginUser,
-        username,
-        logOut
+        logOut,
     };
     // console.log('auth provider');
 

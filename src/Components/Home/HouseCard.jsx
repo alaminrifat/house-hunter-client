@@ -1,9 +1,62 @@
-import React from "react";
+import React, { useContext } from "react";
+import { AuthContext } from "../../Auth/AuthProvider";
+import { ToastContainer, toast } from "react-toastify";
 
 const HouseCard = ({ house }) => {
-    const { name,rentPerMonth,address ,city,roomSize,bedrooms,bathrooms} = house;
+    const { user, fullName } = useContext(AuthContext);
+    const {
+        name,
+        rentPerMonth,
+        address,
+        city,
+        roomSize,
+        bedrooms,
+        bathrooms,
+        _id,
+    } = house;
+
+    const handleBooking = async (id) => {
+        const token = localStorage.getItem("token");
+        console.log(id);
+        if (user?.role === "House Owner") {
+            toast.error("Only House renter can book house");
+
+            return;
+        } else {
+            try {
+                const bookingData = {
+                    name: user.fullName,
+                    email: user.email,
+                    houseId: id,
+                };
+                console.log(bookingData);
+                const response = await fetch(
+                    "http://localhost:3000/api/bookings",
+                    {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                            Authorization: `Bearer ${token}`,
+                        },
+                        body: JSON.stringify(bookingData),
+                    }
+                );
+
+                if (response.ok) {
+                    toast.success("Booking created successfully");
+                } else {
+                    const data = await response.json();
+                    toast.error(data.error);
+                }
+            } catch (error) {
+                console.error("Error creating booking:", error);
+                toast.error("An error occurred. Please try again.");
+            }
+        }
+    };
     return (
         <div>
+            <ToastContainer />
             <a
                 href="#"
                 className="block rounded-lg p-4 shadow-lg shadow-indigo-100"
@@ -20,7 +73,15 @@ const HouseCard = ({ house }) => {
                         <div>
                             <dt className="sr-only">Price</dt>
 
-                            <p className="text-sm"> <span className="text-gray-500">Rent Per Month:</span> <span className="text-teal-600">${rentPerMonth}</span> </p>
+                            <p className="text-sm">
+                                {" "}
+                                <span className="text-gray-500">
+                                    Rent Per Month:
+                                </span>{" "}
+                                <span className="text-teal-600">
+                                    ${rentPerMonth}
+                                </span>{" "}
+                            </p>
                         </div>
 
                         <div>
@@ -75,7 +136,10 @@ const HouseCard = ({ house }) => {
                             <div className="mt-1.5 sm:mt-0">
                                 <p className="text-gray-500">Bathroom</p>
 
-                                <p className="font-medium"> {bathrooms} rooms </p>
+                                <p className="font-medium">
+                                    {" "}
+                                    {bathrooms} rooms{" "}
+                                </p>
                             </div>
                         </div>
 
@@ -100,11 +164,15 @@ const HouseCard = ({ house }) => {
 
                                 <p className="font-medium">{bedrooms} rooms </p>
                             </div>
-                            
                         </div>
                         <div>
-                                <button className="btn btn-sm p-2 bg-teal-500 text-white hover:bg-teal-700">Book</button>
-                            </div>
+                            <button
+                                onClick={() => handleBooking(_id)}
+                                className="btn btn-sm p-2 bg-teal-500 text-white hover:bg-teal-700"
+                            >
+                                Book
+                            </button>
+                        </div>
                     </div>
                 </div>
             </a>

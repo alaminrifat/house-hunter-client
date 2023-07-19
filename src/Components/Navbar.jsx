@@ -3,7 +3,7 @@ import { FaHome } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../Auth/AuthProvider";
 import Container from "../Layout/Container/Container";
-import { MdDashboard, MdSpaceDashboard } from "react-icons/md";
+import {  MdSpaceDashboard } from "react-icons/md";
 import { toast } from "react-toastify";
 
 const Navbar = () => {

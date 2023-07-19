@@ -2,6 +2,8 @@ import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import Container from "../../../Layout/Container/Container";
 import { AuthContext } from "../../../Auth/AuthProvider";
+import BookingCards from "./BookingCards";
+import { ToastContainer, toast } from "react-toastify";
 
 const ManageBookings = () => {
     const { user } = useContext(AuthContext);
@@ -23,7 +25,7 @@ const ManageBookings = () => {
         const token = localStorage.getItem("token");
         try {
             const userEmail = user?.email;
-            console.log(userEmail);
+            // console.log(userEmail);
             const response = await axios.get(
                 `http://localhost:3000/api/renter/bookings/${userEmail}`,
                 {
@@ -34,7 +36,7 @@ const ManageBookings = () => {
             );
             if (response.status === 200) {
                 setBookedHouses(response.data.bookings);
-                console.log(response.data.bookings);
+                // console.log(response.data.bookings);
             }
         } catch (error) {
             console.error("Error fetching booked houses:", error);
@@ -42,12 +44,20 @@ const ManageBookings = () => {
     };
 
     const handleRemoveBooking = async (bookingId) => {
+        // console.log(bookingId);
+        const token = localStorage.getItem("token");
         try {
             const response = await axios.delete(
-                `http://localhost:3000/api/bookings/${bookingId}`
+                `http://localhost:3000/api/bookings/${bookingId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
             );
             if (response.status === 200) {
                 // Handle successful removal of booking
+                toast.success("Booking Canceled Success!");
                 fetchBookedHouses(); // Refresh the list of booked houses
             }
         } catch (error) {
@@ -57,23 +67,22 @@ const ManageBookings = () => {
 
     return (
         <Container>
-            <h2>House Renter Dashboard</h2>
+            <ToastContainer />
 
             {/* Booked Houses List */}
-            <h3>Booked Houses</h3>
-            <ul>
+            <h3 className="text-4xl text-center font-bold mt-10 ">Your Bookings </h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-28 mt-20 ">
+                {
+                    bookedHouses.length === 0 && <p className="text-accent text-center font-bold"> You have no booking yet!</p>
+                }
                 {bookedHouses.map((booking) => (
-                    <li key={booking.id}>
-                        <p>Name: {booking.name}</p>
-                        <p>Email: {booking.email}</p>
-                        <p>Phone: {booking.phone}</p>
-                        <p>House ID: {booking.houseId}</p>
-                        <button onClick={() => handleRemoveBooking(booking.id)}>
-                            Remove Booking
-                        </button>
-                    </li>
+                    <BookingCards
+                        key={booking._id}
+                        booking={booking}
+                        handleRemoveBooking={handleRemoveBooking}
+                    ></BookingCards>
                 ))}
-            </ul>
+            </div>
         </Container>
     );
 };

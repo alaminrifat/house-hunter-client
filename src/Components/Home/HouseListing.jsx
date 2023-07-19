@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Container from "../../Layout/Container/Container";
 import HouseCard from "./HouseCard";
 import InfiniteScroll from "react-infinite-scroll-component";
+import { FaSearch } from "react-icons/fa";
 
 const HouseListing = () => {
     const [houses, setHouses] = useState([]);
@@ -109,10 +110,10 @@ const HouseListing = () => {
 
                 {/* Add more filter inputs for roomSize, availability, and rent range */}
                 <button
-                    className="btn btn-accent btn-xs"
+                    className="btn bg-teal-600 px-5 btn-xs text-xs text-slate-50 hover:bg-teal-800"
                     onClick={handleSearch}
                 >
-                    Search
+                    <FaSearch></FaSearch> Search
                 </button>
             </div>
 
@@ -126,11 +127,13 @@ const HouseListing = () => {
                 dataLength={houses.length}
                 next={() => fetchHouses(currentPage)}
                 hasMore={hasMore}
-                loader={<h4 className="my-8 text-center text-2xl font-bold">Loading...</h4>}
+                loader={
+                    <h4 className="my-8 text-center text-2xl font-bold">
+                        Loading...
+                    </h4>
+                }
                 // endMessage={<p>No more houses to display</p>}
-            >
-               
-            </InfiniteScroll>
+            ></InfiniteScroll>
         </Container>
     );
 };

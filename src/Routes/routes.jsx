@@ -8,10 +8,13 @@ import Addhouse from "../Components/Dashboard/Owner/Addhouse";
 import Home from "../Components/Dashboard/Owner/Home";
 import ManageBookings from "../Components/Dashboard/Renter/ManageBookings";
 import LandingPage from "../Components/Home/LandingPage";
+import About from "../Components/About";
+import ErrorPage from "../Components/ErrorPage";
 export const router = createBrowserRouter([
     {
         path: "/",
         element: <Main />,
+        errorElement:<ErrorPage/>,
         children: [
             {
                 path:'/',
@@ -25,6 +28,10 @@ export const router = createBrowserRouter([
                 path: "register",
                 element: <Register />,
             },
+            {
+                path: "about",
+                element:<About/>
+            }
         ],
     },
     {

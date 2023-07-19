@@ -1,6 +1,8 @@
 import React, { useContext } from "react";
 import { AuthContext } from "../../Auth/AuthProvider";
 import { ToastContainer, toast } from "react-toastify";
+import { motion } from "framer-motion";
+import { fadeIn } from "../../Utils/animationVariants";
 
 const HouseCard = ({ house }) => {
     const { user, fullName } = useContext(AuthContext);
@@ -13,6 +15,7 @@ const HouseCard = ({ house }) => {
         bedrooms,
         bathrooms,
         _id,
+        picture
     } = house;
 
     const handleBooking = async (id) => {
@@ -57,13 +60,16 @@ const HouseCard = ({ house }) => {
     return (
         <div>
             <ToastContainer />
-            <a
-                href="#"
+            <motion.div
+                variants={fadeIn("up", 0.3)}
+                initial="hidden"
+                whileInView={"show"}
+                viewport={{ once: false, amount: 0.3 }}
                 className="block rounded-lg p-4 shadow-lg shadow-indigo-100"
             >
                 <img
                     alt="Home"
-                    src="https://images.unsplash.com/photo-1613545325278-f24b0cae1224?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+                    src={picture}
                     className="h-56 w-full rounded-md object-cover"
                 />
 
@@ -175,7 +181,7 @@ const HouseCard = ({ house }) => {
                         </div>
                     </div>
                 </div>
-            </a>
+            </motion.div>
         </div>
     );
 };

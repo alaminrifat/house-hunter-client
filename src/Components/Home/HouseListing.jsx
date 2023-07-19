@@ -4,6 +4,9 @@ import HouseCard from "./HouseCard";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { FaSearch } from "react-icons/fa";
 
+import { motion } from "framer-motion";
+import { fadeIn } from "../../Utils/animationVariants";
+
 const HouseListing = () => {
     const [houses, setHouses] = useState([]);
     const [filters, setFilters] = useState({

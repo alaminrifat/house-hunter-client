@@ -5,7 +5,9 @@ import { BsBuildingGear, BsFillHouseAddFill } from "react-icons/bs";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../../Auth/AuthProvider";
-import ManageBookings from "../../Components/Dashboard/Renter/ManageBookings";
+
+import { motion } from "framer-motion";
+import { fadeIn } from "../../Utils/animationVariants";
 
 const Dashboard = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -56,15 +58,27 @@ const Dashboard = () => {
         <div className="drawer lg:drawer-open ">
             <ToastContainer></ToastContainer>
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-            <div className="drawer-content ">
+            <motion.div
+                variants={fadeIn("down", 0.1)}
+                initial="hidden"
+                whileInView={"show"}
+                viewport={{ once: false, amount: 0.1 }}
+                className="drawer-content "
+            >
                 <label
                     htmlFor="my-drawer-2"
                     className="btn btn-primary drawer-button lg:hidden"
                 ></label>
                 {/* Page content here */}
                 <Outlet></Outlet>
-            </div>
-            <div className="drawer-side ">
+            </motion.div>
+            <motion.div
+                variants={fadeIn("right", 0.3)}
+                initial="hidden"
+                whileInView={"show"}
+                viewport={{ once: false, amount: 0.3 }}
+                className="drawer-side "
+            >
                 <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
                 <ul className="menu p-4 w-80 h-full bg-teal-600  text-white text-lg">
                     <h2 className="text-center text-sm">Welcome to</h2>
@@ -86,7 +100,7 @@ const Dashboard = () => {
                         </li>
                     )}
                 </ul>
-            </div>
+            </motion.div>
         </div>
     );
 };

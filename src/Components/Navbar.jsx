@@ -3,10 +3,11 @@ import { FaHome } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../Auth/AuthProvider";
 import Container from "../Layout/Container/Container";
-import {  MdSpaceDashboard } from "react-icons/md";
+import { MdSpaceDashboard } from "react-icons/md";
+import { PiNewspaperClipping } from "react-icons/pi";
 import { toast } from "react-toastify";
 
-import logo from "../assets/logo/logo2.png"
+import logo from "../assets/logo/logo2.png";
 
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
@@ -31,18 +32,33 @@ const Navbar = () => {
                 </NavLink>
             </li>
             <li>
+                {user ? (
+                    <NavLink
+                        to={
+                            user?.role === "House Renter"
+                                ? "/dashboard/managebookings"
+                                : "/dashboard/home"
+                        }
+                        className={({ isActive }) =>
+                            isActive ? "navbar-active" : "navbar-not-active"
+                        }
+                    >
+                        <MdSpaceDashboard />
+                        <span>Dashboard</span>
+                    </NavLink>
+                ) : (
+                    <></>
+                )}
+            </li>
+            <li>
                 <NavLink
-                    to={
-                        user?.role === "House Renter"
-                            ? "/dashboard/managebookings"
-                            : "/dashboard/home"
-                    }
+                    to="about"
                     className={({ isActive }) =>
                         isActive ? "navbar-active" : "navbar-not-active"
                     }
                 >
-                    <MdSpaceDashboard />
-                    <span>Dashboard</span>
+                    <PiNewspaperClipping />
+                    <span>About Us</span>
                 </NavLink>
             </li>
         </>
@@ -76,7 +92,7 @@ const Navbar = () => {
                         </ul>
                     </div>
                     <Link to="/" className="w-12">
-                        <img src={logo} alt="" /> 
+                        <img src={logo} alt="" />
                     </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
@@ -85,7 +101,6 @@ const Navbar = () => {
                 <div className="navbar-end">
                     {user ? (
                         <>
-                            <p>{user.role}</p>
                             <button
                                 className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
                                 onClick={handleLogout}

@@ -10,10 +10,15 @@ const Login = () => {
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
 
-    const { setUser, loginUser } = useContext(AuthContext);
+    const { user, loginUser } = useContext(AuthContext);
     const navigate = useNavigate();
     const { register, handleSubmit, reset } = useForm();
     const onSubmit = (data) => handleLogin(data);
+
+    if (user) {
+        toast.success("Already logged in")
+        navigate("/");
+    }
     const handleLogin = async (data) => {
         const { email, password } = data;
         try {

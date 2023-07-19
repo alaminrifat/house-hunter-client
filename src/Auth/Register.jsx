@@ -9,12 +9,16 @@ import animationData from "../../src/assets/lottie/loginLottie.json";
 import "react-toastify/dist/ReactToastify.css";
 import { FadeLoader } from "react-spinners";
 const Register = () => {
-    const { registerUser } = useContext(AuthContext);
+    const { registerUser, user } = useContext(AuthContext);
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
     const [isLoading, setIsLoading] = useState(false);
-
     const navigate = useNavigate();
+    if (user) {
+        toast.success("Already logged in");
+        navigate("/");
+    }
+
     const { register, handleSubmit, reset } = useForm();
 
     const onSubmit = (data) => handleRegister(data);
@@ -72,6 +76,7 @@ const Register = () => {
 
     return (
         <div>
+            <ToastContainer/>
             {isLoading && (
                 <div className="h-[600px] flex items-center justify-center">
                     <FadeLoader color="#36d7b7" />

@@ -1,11 +1,20 @@
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { FaHome } from "react-icons/fa";
 import { useContext } from "react";
 import { AuthContext } from "../Auth/AuthProvider";
 import Container from "../Layout/Container/Container";
+import { MdDashboard, MdSpaceDashboard } from "react-icons/md";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
-    const { user } = useContext(AuthContext);
+    const { user, logOut } = useContext(AuthContext);
+    const navigate = useNavigate();
+    // TODO: add logout
+    const handleLogout = () => {
+        const res = logOut();
+        toast.success(res);
+        navigate("/login");
+    };
     const navOptions = (
         <>
             <li>
@@ -30,7 +39,7 @@ const Navbar = () => {
                         isActive ? "navbar-active" : "navbar-not-active"
                     }
                 >
-                    <FaHome />
+                    <MdSpaceDashboard />
                     <span>Dashboard</span>
                 </NavLink>
             </li>
@@ -77,7 +86,7 @@ const Navbar = () => {
                             <p>{user.role}</p>
                             <button
                                 className="rounded-md bg-teal-600 px-5 py-2.5 text-sm font-medium text-white shadow"
-                                // onClick={logout}
+                                onClick={handleLogout}
                             >
                                 Logout
                             </button>

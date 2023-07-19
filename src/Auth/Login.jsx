@@ -3,26 +3,33 @@ import { ToastContainer, toast } from "react-toastify";
 import animationData from "../../src/assets/lottie/loginLottie.json";
 import Lottie from "react-lottie";
 import { useForm } from "react-hook-form";
-import { Link, Form } from "react-router-dom";
+import { Link, Form, useNavigate } from "react-router-dom";
 import { AuthContext } from "./AuthProvider";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
 const Login = () => {
     const [status, setStatus] = useState("");
     const [error, setError] = useState("");
 
     const { setUser, loginUser } = useContext(AuthContext);
-
+    const navigate = useNavigate();
     const { register, handleSubmit, reset } = useForm();
     const onSubmit = (data) => handleLogin(data);
     const handleLogin = async (data) => {
         const { email, password } = data;
         try {
             // Call the loginUser function to perform the login
-            await loginUser(email, password);
-            // Handle successful login, such as redirecting to the user dashboard
-            // or updating the authenticated state
+            const response = await loginUser(email, password);
+
             toast.success("Login successful");
             reset(); // Reset the form fields
+
+            if (response?.role === "House Renter") {
+                navigate("/dashboard/managebookings");
+            } else {
+                navigate("/dashboard/home");
+            }
+
+            console.log();
         } catch (error) {
             console.error("Error during user login:", error);
             toast.error("Error logging in. Please try again later.");

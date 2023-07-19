@@ -100,7 +100,11 @@ const HouseCard = ({ house }) => {
 
                                 <p className="font-medium">{bedrooms} rooms </p>
                             </div>
+                            
                         </div>
+                        <div>
+                                <button className="btn btn-sm p-2 bg-teal-500 text-white hover:bg-teal-700">Book</button>
+                            </div>
                     </div>
                 </div>
             </a>

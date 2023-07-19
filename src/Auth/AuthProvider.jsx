@@ -8,7 +8,7 @@ const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
     const username = "Rifat";
-
+    // const navigate = useNavigate();
     const registerUser = async (fullName, email, password, role) => {
         try {
             const response = await axios.post(
@@ -23,6 +23,7 @@ const AuthProvider = ({ children }) => {
 
             if (response.status === 201) {
                 setUser({ email, role });
+
                 return response.data;
             } else {
                 throw new Error("User registration failed");
@@ -47,14 +48,17 @@ const AuthProvider = ({ children }) => {
             const { role } = response.data;
 
             setUser({ email, role });
-            // const decodedToken = jwt.decode(token);
-            // const userId = decodedToken.userId;
-            // setUser(userId);
-            // console.log(role, token);
+
             return response.data;
         } catch (error) {
             throw new Error("Login failed");
         }
+    };
+
+    const logOut = () => {
+        localStorage.removeItem("token");
+        setUser(null);
+        return "logout success";
     };
 
     useEffect(() => {
@@ -65,7 +69,6 @@ const AuthProvider = ({ children }) => {
             const decodedToken = jwt_decode(storedToken);
             const { email, role } = decodedToken;
 
-            // Set the user state with the retrieved information
             setUser({ email, role });
             setLoading(false);
         } else {
@@ -79,6 +82,7 @@ const AuthProvider = ({ children }) => {
         registerUser,
         loginUser,
         username,
+        logOut
     };
     // console.log('auth provider');
 

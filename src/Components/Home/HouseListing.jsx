@@ -58,12 +58,12 @@ const HouseListing = () => {
 
     return (
         <Container>
-            <div className="flex  items-center justify-center gap-6 mt-10">
+            <div className="flex  items-center md:justify-center md:gap-6 mt-10 flex-col md:flex-row gap-2">
                 <input
                     type="text"
                     id="cityInput"
                     name="city"
-                    className="input input-xs min-w-xs input-accent"
+                    className="input input-xs md:min-w-xs input-accent  w-28"
                     placeholder="city"
                     value={filters.city}
                     onChange={handleInputChange}
@@ -73,7 +73,7 @@ const HouseListing = () => {
                     type="number"
                     id="bedroomsInput"
                     name="bedrooms"
-                    className="input input-xs min-w-xs input-accent"
+                    className="input input-xs min-w-xs input-accent  w-28"
                     placeholder="Bedrooms"
                     value={filters.bedrooms}
                     onChange={handleInputChange}
@@ -83,7 +83,7 @@ const HouseListing = () => {
                     type="number"
                     id="bathroomsInput"
                     name="bathrooms"
-                    className="input input-xs min-w-xs input-accent"
+                    className="input input-xs min-w-xs input-accent  w-28"
                     placeholder="Bathrooms"
                     value={filters.bathrooms}
                     onChange={handleInputChange}
@@ -92,9 +92,18 @@ const HouseListing = () => {
                     type="number"
                     id="roomSizeInput"
                     name="roomSize"
-                    className="input input-xs min-w-xs input-accent"
+                    className="input input-xs min-w-xs input-accent  w-28"
                     placeholder="Room Size"
                     value={filters.roomSize}
+                    onChange={handleInputChange}
+                />
+                <input
+                    type="number"
+                    id="rentInput"
+                    name="rent"
+                    className="input input-xs min-w-xs input-accent  w-28"
+                    placeholder="Rent"
+                    value={filters.rent}
                     onChange={handleInputChange}
                 />
 
@@ -117,7 +126,7 @@ const HouseListing = () => {
                 dataLength={houses.length}
                 next={() => fetchHouses(currentPage)}
                 hasMore={hasMore}
-                loader={<h4>Loading...</h4>}
+                loader={<h4 className="my-8 text-center text-2xl font-bold">Loading...</h4>}
                 // endMessage={<p>No more houses to display</p>}
             >
                

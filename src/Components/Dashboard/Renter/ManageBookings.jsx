@@ -48,68 +48,6 @@ const ManageBookings = () => {
         <div>
             <h2>House Renter Dashboard</h2>
 
-            {/* Booking Form
-            <form onSubmit={handleBooking}>
-                <label>
-                    Name:
-                    <input
-                        type="text"
-                        value={bookingData.name}
-                        onChange={(e) =>
-                            setBookingData({
-                                ...bookingData,
-                                name: e.target.value,
-                            })
-                        }
-                        required
-                    />
-                </label>
-                <label>
-                    Email:
-                    <input
-                        type="email"
-                        value={bookingData.email}
-                        onChange={(e) =>
-                            setBookingData({
-                                ...bookingData,
-                                email: e.target.value,
-                            })
-                        }
-                        disabled
-                        required
-                    />
-                </label>
-                <label>
-                    Phone:
-                    <input
-                        type="text"
-                        value={bookingData.phone}
-                        onChange={(e) =>
-                            setBookingData({
-                                ...bookingData,
-                                phone: e.target.value,
-                            })
-                        }
-                        required
-                    />
-                </label>
-                <label>
-                    House ID:
-                    <input
-                        type="text"
-                        value={bookingData.houseId}
-                        onChange={(e) =>
-                            setBookingData({
-                                ...bookingData,
-                                houseId: e.target.value,
-                            })
-                        }
-                        required
-                    />
-                </label>
-                <button type="submit">Book Now</button>
-            </form> */}
-
             {/* Booked Houses List */}
             <h3>Booked Houses</h3>
             <ul>

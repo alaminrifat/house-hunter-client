@@ -99,84 +99,89 @@ const ManageHouse = () => {
         setIsEditing(false);
         setFeedbackModalOpen(false);
     };
-
+    console.log(houses);
     return (
         <div className="overflow-x-auto">
-            <table className="table">
-                <thead>
-                    <tr>
-                        <th>Name</th>
-                        <th>Job</th>
-                        <th>Favorite Color</th>
-                        <th></th>
-                    </tr>
-                </thead>
-                {isLoading ? (
-                    <tbody>
+            {houses.length == 0 ? (
+                <p>You have not added any house yet!</p>
+            ) : (
+                <table className="table">
+                    <thead>
                         <tr>
-                            <td colSpan="4" className="text-center">
-                                <div className="ms-[550px] mt-[100px]">
-                                    <FadeLoader color="#36d7b7" />
-                                </div>
-                            </td>
+                            <th>Owner</th>
+                            <th>Address</th>
+                            <th>Size</th>
+                            <th>Bedrooms</th>
+                            <th>Bathrooms</th>
+                            <th>Rent</th>
+                            <th>Action</th>
                         </tr>
-                    </tbody>
-                ) : (
-                    <tbody>
-                        {houses.map((house) => (
-                            <tr key={house._id}>
-                                <td>
-                                    <label>
-                                        <input
-                                            type="checkbox"
-                                            className="checkbox"
-                                        />
-                                    </label>
-                                </td>
-                                <td>
-                                    <div className="flex items-center space-x-3">
-                                        <div className="avatar">
-                                            <div className="mask mask-squircle w-12 h-12">
-                                                <img
-                                                    src="/tailwind-css-component-profile-2@56w.png"
-                                                    alt="Avatar Tailwind CSS Component"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <div className="font-bold">
-                                                {house.name}
-                                            </div>
-                                        </div>
+                    </thead>
+                    {isLoading ? (
+                        <tbody>
+                            <tr>
+                                <td colSpan="4" className="text-center">
+                                    <div className="ms-[550px] mt-[100px]">
+                                        <FadeLoader color="#36d7b7" />
                                     </div>
                                 </td>
-                                <td>
-                                    {house.name}
-                                    <br />
-                                    <span className="badge badge-ghost badge-sm">
-                                        Desktop Support Technician
-                                    </span>
-                                </td>
-                                <td>Purple</td>
-                                <td className="">
-                                    <button
-                                        className="btn btn-info btn-sm text-white me-2"
-                                        onClick={() => openEditForm(house)}
-                                    >
-                                        <MdEditDocument /> Edit
-                                    </button>
-                                    <button
-                                        className="btn btn-error btn-sm text-white"
-                                        onClick={() => deleteHouse(house._id)}
-                                    >
-                                        <MdOutlineDelete /> Delete
-                                    </button>
-                                </td>
                             </tr>
-                        ))}
-                    </tbody>
-                )}
-            </table>
+                        </tbody>
+                    ) : (
+                        <tbody>
+                            {houses.map((house) => (
+                                <tr key={house._id}>
+                                    <td>
+                                        <div className="flex items-center space-x-3">
+                                            <div className="avatar">
+                                                <div className="mask mask-squircle w-12 h-12">
+                                                    <img
+                                                        src={house.picture}
+                                                        alt="Avatar Tailwind CSS Component"
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <div className="font-bold text-sm">
+                                                    {house.name}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        {house.address}
+                                        <br />
+                                        <span className="badge badge-ghost mt-1">
+                                            {house.city}
+                                        </span>
+                                    </td>
+                                    <td>{house.roomSize} </td>
+                                    <td>{house.bedrooms} </td>
+                                    <td>{house.bathrooms} </td>
+                                    <td>{house.rentPerMonth} </td>
+                                    
+                                    <td className="">
+                                        <button
+                                            className="btn btn-info btn-sm text-white me-2"
+                                            onClick={() => openEditForm(house)}
+                                        >
+                                            <MdEditDocument /> Edit
+                                        </button>
+                                        <button
+                                            className="btn btn-error btn-sm text-white"
+                                            onClick={() =>
+                                                deleteHouse(house._id)
+                                            }
+                                        >
+                                            <MdOutlineDelete /> Delete
+                                        </button>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    )}
+                </table>
+            )}
 
             {isEditing && selectedHouse && (
                 <dialog

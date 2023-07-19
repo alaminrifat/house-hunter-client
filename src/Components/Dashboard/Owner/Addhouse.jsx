@@ -4,6 +4,7 @@ import axios from "axios";
 
 import Container from "../../../Layout/Container/Container";
 import { AuthContext } from "../../../Auth/AuthProvider";
+import { ToastContainer, toast } from "react-toastify";
 
 const Addhouse = () => {
     const { register, handleSubmit, reset } = useForm();
@@ -31,7 +32,7 @@ const Addhouse = () => {
             );
 
             if (response.status === 201) {
-                setSuccessMessage("House added successfully");
+                toast.success("House added successfully");
                 reset();
             }
         } catch (error) {
@@ -42,6 +43,7 @@ const Addhouse = () => {
     };
     return (
         <div className="mt-10">
+            <ToastContainer/>
             <Container>
                 {isLoading && <p>Loading...</p>}
                 {/* {error && <p className="error">{error}</p>} */}
@@ -150,6 +152,7 @@ const Addhouse = () => {
                                     type="email"
                                     name="email"
                                     className="input input-bordered mb-4 w-full me-6"
+                                    value={user.email}
                                     placeholder="Email"
                                     {...register("email", {
                                         required: true,
@@ -178,7 +181,7 @@ const Addhouse = () => {
                                 <button
                                     type="submit"
                                     disabled={isLoading}
-                                    className="btn bg-teal-600 text-white my-4"
+                                    className="btn bg-teal-600 text-white my-4 hover:bg-teal-800"
                                 >
                                     Add House
                                 </button>

@@ -10,7 +10,6 @@ import ManageBookings from "../../Components/Dashboard/Renter/ManageBookings";
 const Dashboard = () => {
     const { user, logOut } = useContext(AuthContext);
     const navigate = useNavigate();
-    // TODO: add logout
     const handleLogout = () => {
         const res = logOut();
         toast.success(res);

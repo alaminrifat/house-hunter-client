@@ -6,6 +6,8 @@ import Container from "../Layout/Container/Container";
 import {  MdSpaceDashboard } from "react-icons/md";
 import { toast } from "react-toastify";
 
+import logo from "../assets/logo/logo2.png"
+
 const Navbar = () => {
     const { user, logOut } = useContext(AuthContext);
     const navigate = useNavigate();
@@ -73,8 +75,8 @@ const Navbar = () => {
                             {navOptions}
                         </ul>
                     </div>
-                    <Link to="/" className="btn btn-ghost normal-case text-xl">
-                        daisyUI
+                    <Link to="/" className="w-12">
+                        <img src={logo} alt="" /> 
                     </Link>
                 </div>
                 <div className="navbar-center hidden lg:flex">
